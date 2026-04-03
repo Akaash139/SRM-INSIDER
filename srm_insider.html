@@ -1,0 +1,1193 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SRM Insider — Student Community Platform</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0a0a0f;
+  --bg2: #0f0f18;
+  --bg3: #14141f;
+  --surface: #1a1a2e;
+  --surface2: #1e1e35;
+  --border: rgba(255,255,255,0.07);
+  --text: #f0f0f5;
+  --text2: #9090aa;
+  --text3: #5a5a75;
+  --gold: #d4a843;
+  --gold2: #f0c060;
+  --gold-dim: rgba(212,168,67,0.12);
+  --gold-glow: rgba(212,168,67,0.25);
+  --accent: #4f8ef7;
+  --accent2: #7b6ef7;
+  --red: #e05a5a;
+  --green: #4caf87;
+  --radius: 16px;
+  --radius-lg: 24px;
+  --transition: 0.3s cubic-bezier(0.4,0,0.2,1);
+  --shadow: 0 8px 40px rgba(0,0,0,0.4);
+  --shadow-gold: 0 4px 30px rgba(212,168,67,0.2);
+}
+.hero {
+  position: relative;
+  overflow: hidden;
+}
+img {
+  transition: transform 0.3s ease;
+}
+
+img:hover {
+  transform: scale(1.03);
+}
+button {
+  transition: all 0.3s ease;
+}
+
+button:hover {
+  box-shadow: 0 0 10px rgba(255, 200, 100, 0.3);
+}
+.card {
+  transition: transform 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+}
+html {
+  scroll-behavior: smooth;
+}
+input:focus {
+  outline: none;
+  box-shadow: 0 0 8px rgba(255, 200, 100, 0.4);
+}
+.hero::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 30% 40%, rgba(255, 220, 120, 0.35), transparent 50%),
+              radial-gradient(circle at 70% 60%, rgba(255, 180, 50, 0.25), transparent 50%);
+  filter: blur(80px);
+  animation: auroraMove 10s infinite alternate ease-in-out;
+  z-index: -1;
+}
+#progress-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 3px;
+  background: linear-gradient(90deg, gold, orange);
+  width: 0%;
+  z-index: 9999;
+}
+@keyframes auroraMove {
+  0% { transform: translate(0, 0); }
+  100% { transform: translate(-40px, -30px); }
+}
+[data-theme="light"] {
+  --bg: #f7f7fb;
+  --bg2: #f0f0f8;
+  --bg3: #e8e8f5;
+  --surface: #ffffff;
+  --surface2: #f5f5ff;
+  --border: rgba(0,0,0,0.08);
+  --text: #0d0d1a;
+  --text2: #4a4a6a;
+  --text3: #9090b0;
+  --gold-dim: rgba(212,168,67,0.1);
+  --shadow: 0 8px 40px rgba(0,0,0,0.1);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;font-size:16px}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);line-height:1.6;overflow-x:hidden;transition:background var(--transition),color var(--transition)}
+a{text-decoration:none;color:inherit}
+img{max-width:100%;display:block}
+
+/* Scrollbar */
+::-webkit-scrollbar{width:6px}
+::-webkit-scrollbar-track{background:var(--bg)}
+::-webkit-scrollbar-thumb{background:var(--gold);border-radius:3px}
+
+/* Typography */
+.font-display{font-family:'Syne',sans-serif}
+
+/* ===== NAVBAR ===== */
+nav{position:fixed;top:0;left:0;right:0;z-index:1000;padding:0 5%;height:72px;display:flex;align-items:center;justify-content:space-between;transition:all var(--transition);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px)}
+nav.scrolled{background:rgba(10,10,15,0.95);border-bottom:1px solid var(--border);box-shadow:0 4px 30px rgba(0,0,0,0.3)}
+[data-theme="light"] nav.scrolled{background:rgba(247,247,251,0.95)}
+.nav-logo{display:flex;align-items:center;gap:10px}
+.nav-logo img{height:36px;width:auto}
+.nav-links{display:flex;align-items:center;gap:2px}
+.nav-links a{padding:8px 16px;border-radius:10px;font-size:0.9rem;color:var(--text2);transition:all var(--transition);font-weight:500}
+.nav-links a:hover{color:var(--text);background:var(--surface)}
+.nav-right{display:flex;align-items:center;gap:12px}
+.theme-toggle{width:40px;height:40px;border-radius:12px;border:1px solid var(--border);background:var(--surface);cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--text2);transition:all var(--transition);font-size:1.1rem}
+.theme-toggle:hover{color:var(--gold);border-color:var(--gold)}
+.btn-nav-login{padding:9px 20px;border-radius:12px;background:var(--gold-dim);border:1px solid rgba(212,168,67,0.3);color:var(--gold);font-size:0.9rem;font-weight:600;cursor:pointer;transition:all var(--transition)}
+.btn-nav-login:hover{background:var(--gold);color:#000}
+
+/* Hamburger */
+.hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:8px;border-radius:10px;border:1px solid var(--border);background:var(--surface)}
+.hamburger span{width:20px;height:2px;background:var(--text);border-radius:2px;transition:all var(--transition)}
+
+/* Mobile menu */
+.mobile-menu{display:none;position:fixed;top:72px;left:0;right:0;background:var(--bg2);border-bottom:1px solid var(--border);padding:20px 5%;z-index:999;flex-direction:column;gap:4px}
+.mobile-menu.open{display:flex}
+.mobile-menu a{padding:12px 16px;border-radius:12px;color:var(--text2);font-size:1rem;font-weight:500;transition:all var(--transition)}
+.mobile-menu a:hover{color:var(--text);background:var(--surface)}
+
+/* ===== HERO ===== */
+#hero{min-height:100vh;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;padding:100px 5% 60px}
+.hero-bg{position:absolute;inset:0;z-index:0}
+.hero-orb{position:absolute;border-radius:50%;filter:blur(80px);pointer-events:none}
+.orb1{width:600px;height:600px;background:radial-gradient(circle,rgba(212,168,67,0.15),transparent 70%);top:-200px;right:-100px;animation:float1 8s ease-in-out infinite}
+.orb2{width:500px;height:500px;background:radial-gradient(circle,rgba(79,142,247,0.1),transparent 70%);bottom:-100px;left:-100px;animation:float2 10s ease-in-out infinite}
+.orb3{width:300px;height:300px;background:radial-gradient(circle,rgba(123,110,247,0.08),transparent 70%);top:40%;left:40%;animation:float3 7s ease-in-out infinite}
+@keyframes float1{0%,100%{transform:translate(0,0)}50%{transform:translate(-30px,30px)}}
+@keyframes float2{0%,100%{transform:translate(0,0)}50%{transform:translate(20px,-20px)}}
+@keyframes float3{0%,100%{transform:translate(0,0)}50%{transform:translate(-15px,15px)}}
+
+/* Grid overlay */
+.hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,0.015) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.015) 1px,transparent 1px);background-size:60px 60px;z-index:1}
+[data-theme="light"] .hero-grid{background-image:linear-gradient(rgba(0,0,0,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(0,0,0,0.04) 1px,transparent 1px)}
+
+.hero-content{position:relative;z-index:2;max-width:800px;text-align:center}
+.hero-badge{display:inline-flex;align-items:center;gap:8px;padding:8px 18px;border-radius:100px;background:var(--gold-dim);border:1px solid rgba(212,168,67,0.2);color:var(--gold);font-size:0.85rem;font-weight:600;margin-bottom:32px;animation:fadeUp 0.6s ease forwards}
+.hero-badge .dot{width:7px;height:7px;border-radius:50%;background:var(--gold);animation:pulse 2s ease infinite}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:0.5;transform:scale(1.4)}}
+h1.hero-title{font-family:'Syne',sans-serif;font-size:clamp(2.8rem,6vw,5rem);font-weight:800;line-height:1.05;margin-bottom:24px;animation:fadeUp 0.7s 0.1s ease both}
+.hero-title .line1{display:block}
+.hero-title .highlight{background:linear-gradient(135deg,var(--gold),var(--gold2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hero-sub{font-size:1.15rem;color:var(--text2);max-width:560px;margin:0 auto 40px;line-height:1.7;animation:fadeUp 0.7s 0.2s ease both}
+.hero-stats{display:flex;gap:32px;justify-content:center;margin-bottom:48px;animation:fadeUp 0.7s 0.3s ease both;flex-wrap:wrap}
+.stat-item{text-align:center}
+.stat-num{font-family:'Syne',sans-serif;font-size:2rem;font-weight:800;color:var(--gold);display:block}
+.stat-label{font-size:0.8rem;color:var(--text3);text-transform:uppercase;letter-spacing:1px}
+.hero-actions{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;animation:fadeUp 0.7s 0.4s ease both}
+.btn-primary{padding:14px 32px;border-radius:14px;background:linear-gradient(135deg,var(--gold),#c9963a);color:#000;font-weight:700;font-size:1rem;cursor:pointer;border:none;transition:all var(--transition);box-shadow:var(--shadow-gold)}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 8px 40px rgba(212,168,67,0.4)}
+.btn-secondary{padding:14px 32px;border-radius:14px;background:var(--surface);border:1px solid var(--border);color:var(--text);font-weight:600;font-size:1rem;cursor:pointer;transition:all var(--transition)}
+.btn-secondary:hover{border-color:var(--gold);color:var(--gold);transform:translateY(-2px)}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+
+/* ===== SECTION COMMON ===== */
+section{padding:100px 5%}
+.section-label{display:inline-flex;align-items:center;gap:8px;font-size:0.8rem;font-weight:700;text-transform:uppercase;letter-spacing:2px;color:var(--gold);margin-bottom:16px}
+.section-label::before{content:'';width:20px;height:2px;background:var(--gold);border-radius:2px}
+.section-title{font-family:'Syne',sans-serif;font-size:clamp(1.8rem,3.5vw,2.8rem);font-weight:800;margin-bottom:16px;line-height:1.15}
+.section-desc{color:var(--text2);font-size:1.05rem;max-width:500px;line-height:1.7}
+.section-header{margin-bottom:60px}
+
+/* ===== ABOUT ===== */
+#about{background:var(--bg2)}
+.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center}
+.about-visual{position:relative}
+.about-card-main{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:32px;position:relative;overflow:hidden}
+.about-card-main::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--gold),var(--accent))}
+.community-icon{width:56px;height:56px;border-radius:16px;background:var(--gold-dim);border:1px solid rgba(212,168,67,0.2);display:flex;align-items:center;justify-content:center;color:var(--gold);font-size:1.5rem;margin-bottom:20px}
+.about-card-main h3{font-family:'Syne',sans-serif;font-size:1.3rem;font-weight:700;margin-bottom:12px}
+.about-card-main p{color:var(--text2);font-size:0.95rem;line-height:1.7}
+.about-pills{display:flex;flex-wrap:wrap;gap:8px;margin-top:20px}
+.pill{padding:5px 14px;border-radius:100px;background:var(--surface2);border:1px solid var(--border);font-size:0.8rem;color:var(--text2)}
+.floating-badge{position:absolute;padding:12px 20px;border-radius:14px;background:var(--surface);border:1px solid var(--border);font-size:0.85rem;font-weight:600;box-shadow:var(--shadow);display:flex;align-items:center;gap:8px}
+.floating-badge.a{bottom:-20px;right:-10px;color:var(--green)}
+.floating-badge.b{top:-15px;left:-10px;color:var(--accent)}
+.about-content .values-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:32px}
+.value-item{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:20px;transition:all var(--transition)}
+.value-item:hover{border-color:rgba(212,168,67,0.3);transform:translateY(-2px)}
+.value-icon{font-size:1.4rem;margin-bottom:10px}
+.value-item h4{font-family:'Syne',sans-serif;font-size:0.95rem;font-weight:700;margin-bottom:6px}
+.value-item p{color:var(--text2);font-size:0.85rem;line-height:1.5}
+
+/* ===== FEATURES ===== */
+#features{background:var(--bg)}
+.features-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.feature-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:28px;position:relative;overflow:hidden;transition:all var(--transition);cursor:default;group}
+.feature-card::after{content:'';position:absolute;inset:0;background:linear-gradient(135deg,var(--gold-dim),transparent);opacity:0;transition:opacity var(--transition)}
+.feature-card:hover{border-color:rgba(212,168,67,0.25);transform:translateY(-4px);box-shadow:0 20px 60px rgba(0,0,0,0.3)}
+.feature-card:hover::after{opacity:1}
+.feature-icon{width:52px;height:52px;border-radius:14px;background:var(--gold-dim);border:1px solid rgba(212,168,67,0.15);display:flex;align-items:center;justify-content:center;color:var(--gold);font-size:1.4rem;margin-bottom:20px;position:relative;z-index:1}
+.feature-card h3{font-family:'Syne',sans-serif;font-size:1.1rem;font-weight:700;margin-bottom:10px;position:relative;z-index:1}
+.feature-card p{color:var(--text2);font-size:0.9rem;line-height:1.6;position:relative;z-index:1}
+
+/* ===== PROJECTS ===== */
+#projects{background:var(--bg2)}
+.projects-container{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:24px}
+.project-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);overflow:hidden;transition:all var(--transition);position:relative}
+.project-card:hover{transform:translateY(-6px);border-color:rgba(212,168,67,0.3);box-shadow:0 24px 60px rgba(0,0,0,0.35)}
+.project-card-top{padding:24px 24px 0;display:flex;justify-content:space-between;align-items:flex-start}
+.project-logo{width:48px;height:48px;border-radius:14px;background:var(--gold-dim);border:1px solid rgba(212,168,67,0.2);display:flex;align-items:center;justify-content:center;font-size:1.3rem}
+.project-link-btn{width:36px;height:36px;border-radius:10px;background:var(--surface2);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;color:var(--text2);transition:all var(--transition);text-decoration:none}
+.project-link-btn:hover{color:var(--gold);border-color:var(--gold)}
+.project-card-body{padding:20px 24px 24px}
+.project-name{font-family:'Syne',sans-serif;font-size:1.1rem;font-weight:700;margin-bottom:8px}
+.project-desc{color:var(--text2);font-size:0.9rem;line-height:1.6;margin-bottom:16px}
+.project-tags{display:flex;flex-wrap:wrap;gap:6px}
+.tag{padding:4px 12px;border-radius:100px;font-size:0.75rem;font-weight:600;background:var(--surface2);border:1px solid var(--border);color:var(--text3)}
+.tag.gold{background:var(--gold-dim);border-color:rgba(212,168,67,0.2);color:var(--gold)}
+.tag.blue{background:rgba(79,142,247,0.08);border-color:rgba(79,142,247,0.15);color:var(--accent)}
+.tag.purple{background:rgba(123,110,247,0.08);border-color:rgba(123,110,247,0.15);color:var(--accent2)}
+
+/* ===== DOMAINS ===== */
+#domains{background:var(--bg)}
+.domains-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.domain-chip{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:20px;text-align:center;transition:all var(--transition);cursor:default}
+.domain-chip:hover{border-color:rgba(212,168,67,0.3);background:var(--gold-dim);transform:translateY(-3px)}
+.domain-chip .d-icon{font-size:1.8rem;margin-bottom:12px}
+.domain-chip h4{font-family:'Syne',sans-serif;font-size:0.9rem;font-weight:700;margin-bottom:6px}
+.domain-chip p{color:var(--text3);font-size:0.78rem;line-height:1.4}
+
+/* ===== TEAM ===== */
+#team{background:var(--bg2)}
+.team-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:20px}
+.team-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:24px;text-align:center;transition:all var(--transition)}
+.team-card:hover{transform:translateY(-4px);border-color:rgba(212,168,67,0.25);box-shadow:var(--shadow)}
+.team-avatar{width:64px;height:64px;border-radius:20px;background:linear-gradient(135deg,var(--gold-dim),rgba(79,142,247,0.1));border:2px solid rgba(212,168,67,0.2);display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-size:1.3rem;font-weight:800;color:var(--gold);margin:0 auto 16px}
+.team-name{font-family:'Syne',sans-serif;font-size:0.95rem;font-weight:700;margin-bottom:4px}
+.team-role{color:var(--text3);font-size:0.78rem;margin-bottom:4px}
+.team-year{color:var(--gold);font-size:0.75rem;font-weight:600;margin-bottom:16px}
+.team-linkedin{display:inline-flex;align-items:center;gap:6px;padding:7px 16px;border-radius:100px;background:var(--surface2);border:1px solid var(--border);color:var(--text2);font-size:0.78rem;font-weight:600;transition:all var(--transition)}
+.team-linkedin:hover{color:var(--accent);border-color:var(--accent)}
+.founder-card{grid-column:span 2}
+.founder-card .team-avatar{width:80px;height:80px;border-radius:24px;font-size:1.8rem}
+.founder-badge{display:inline-flex;align-items:center;gap:6px;padding:4px 12px;border-radius:100px;background:var(--gold-dim);border:1px solid rgba(212,168,67,0.2);color:var(--gold);font-size:0.7rem;font-weight:700;text-transform:uppercase;letter-spacing:1px;margin-bottom:12px}
+
+/* ===== MEMBERSHIP ===== */
+#membership{background:var(--bg)}
+.membership-grid{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:start}
+.membership-steps{display:flex;flex-direction:column;gap:0}
+.step{display:flex;gap:20px;padding:24px 0;border-bottom:1px solid var(--border)}
+.step:last-child{border-bottom:none}
+.step-num{width:40px;height:40px;border-radius:12px;background:var(--gold-dim);border:1px solid rgba(212,168,67,0.2);color:var(--gold);font-family:'Syne',sans-serif;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.step-content h4{font-family:'Syne',sans-serif;font-size:1rem;font-weight:700;margin-bottom:6px}
+.step-content p{color:var(--text2);font-size:0.9rem}
+.benefits-list{display:flex;flex-direction:column;gap:12px;margin-top:24px}
+.benefit{display:flex;align-items:flex-start;gap:12px;padding:16px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius)}
+.benefit-icon{color:var(--green);font-size:1.1rem;flex-shrink:0;margin-top:2px}
+.benefit h4{font-family:'Syne',sans-serif;font-size:0.9rem;font-weight:700;margin-bottom:4px}
+.benefit p{color:var(--text2);font-size:0.83rem}
+
+/* ===== CONNECT / COLLAB ===== */
+#connect{background:var(--bg2)}
+.connect-grid{display:grid;grid-template-columns:1fr 1fr;gap:40px}
+.collab-box{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:32px;transition:all var(--transition)}
+.collab-box:hover{border-color:rgba(212,168,67,0.2);transform:translateY(-3px)}
+.collab-box h3{font-family:'Syne',sans-serif;font-size:1.1rem;font-weight:700;margin-bottom:12px;display:flex;align-items:center;gap:10px}
+.collab-box p{color:var(--text2);font-size:0.9rem;line-height:1.6}
+
+/* ===== CTA BANNER ===== */
+#cta{background:var(--bg);padding:80px 5%}
+.cta-inner{background:linear-gradient(135deg,var(--surface),var(--surface2));border:1px solid rgba(212,168,67,0.15);border-radius:28px;padding:64px;text-align:center;position:relative;overflow:hidden}
+.cta-inner::before{content:'';position:absolute;top:-100px;right:-100px;width:400px;height:400px;background:radial-gradient(circle,var(--gold-glow),transparent 70%);pointer-events:none}
+.cta-inner h2{font-family:'Syne',sans-serif;font-size:clamp(1.8rem,3.5vw,2.6rem);font-weight:800;margin-bottom:16px;position:relative}
+.cta-inner p{color:var(--text2);font-size:1.05rem;margin-bottom:36px;position:relative}
+.social-links{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;margin-top:32px}
+.social-btn{display:inline-flex;align-items:center;gap:8px;padding:12px 24px;border-radius:14px;background:var(--surface);border:1px solid var(--border);color:var(--text);font-weight:600;font-size:0.9rem;transition:all var(--transition);text-decoration:none}
+.social-btn:hover{transform:translateY(-2px);border-color:var(--gold);color:var(--gold)}
+.social-btn svg{width:18px;height:18px}
+
+/* ===== FOOTER ===== */
+footer{background:var(--bg2);border-top:1px solid var(--border);padding:60px 5% 40px}
+.footer-grid{display:grid;grid-template-columns:1.5fr 1fr 1fr 1fr;gap:48px;margin-bottom:48px}
+.footer-brand img{height:32px;margin-bottom:16px}
+.footer-brand p{color:var(--text2);font-size:0.88rem;line-height:1.7;margin-bottom:20px}
+.footer-col h4{font-family:'Syne',sans-serif;font-size:0.85rem;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:16px;color:var(--text3)}
+.footer-col a{display:block;color:var(--text2);font-size:0.88rem;padding:4px 0;transition:color var(--transition)}
+.footer-col a:hover{color:var(--gold)}
+.footer-bottom{border-top:1px solid var(--border);padding-top:24px;display:flex;justify-content:space-between;align-items:center;flex-wrap:gap}
+.footer-bottom p{color:var(--text3);font-size:0.83rem}
+
+/* ===== AUTH PAGES ===== */
+#auth-section{display:none;position:fixed;inset:0;z-index:2000;background:rgba(0,0,0,0.8);backdrop-filter:blur(10px);align-items:center;justify-content:center;padding:20px}
+#auth-section.open{display:flex}
+.auth-card{background:var(--bg2);border:1px solid var(--border);border-radius:28px;padding:48px;width:100%;max-width:440px;position:relative;animation:scaleIn 0.3s ease}
+@keyframes scaleIn{from{opacity:0;transform:scale(0.9)}to{opacity:1;transform:scale(1)}}
+.auth-close{position:absolute;top:20px;right:20px;width:36px;height:36px;border-radius:10px;background:var(--surface);border:1px solid var(--border);color:var(--text2);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all var(--transition)}
+.auth-close:hover{color:var(--text);background:var(--surface2)}
+.auth-logo{display:flex;justify-content:center;margin-bottom:24px}
+.auth-logo img{height:36px}
+.auth-title{font-family:'Syne',sans-serif;font-size:1.6rem;font-weight:800;text-align:center;margin-bottom:6px}
+.auth-sub{color:var(--text2);text-align:center;font-size:0.9rem;margin-bottom:32px}
+.form-group{margin-bottom:20px}
+.form-group label{display:block;font-size:0.85rem;font-weight:600;margin-bottom:8px;color:var(--text2)}
+.form-group input{width:100%;padding:13px 16px;border-radius:12px;background:var(--surface);border:1px solid var(--border);color:var(--text);font-size:0.95rem;font-family:inherit;transition:all var(--transition);outline:none}
+.form-group input:focus{border-color:rgba(212,168,67,0.5);box-shadow:0 0 0 3px var(--gold-dim)}
+.form-group input.error{border-color:var(--red)}
+.form-group .error-msg{color:var(--red);font-size:0.8rem;margin-top:6px;display:none}
+.form-group.has-error .error-msg{display:block}
+.btn-auth{width:100%;padding:14px;border-radius:12px;background:linear-gradient(135deg,var(--gold),#c9963a);color:#000;font-weight:700;font-size:1rem;cursor:pointer;border:none;transition:all var(--transition);margin-bottom:16px}
+.btn-auth:hover{opacity:0.9;transform:translateY(-1px)}
+.auth-switch{text-align:center;color:var(--text2);font-size:0.88rem}
+.auth-switch span{color:var(--gold);font-weight:600;cursor:pointer}
+.auth-switch span:hover{text-decoration:underline}
+.auth-tabs{display:flex;gap:4px;background:var(--surface);border-radius:12px;padding:4px;margin-bottom:28px}
+.auth-tab{flex:1;padding:9px;border-radius:10px;text-align:center;font-size:0.88rem;font-weight:600;cursor:pointer;color:var(--text2);transition:all var(--transition)}
+.auth-tab.active{background:var(--bg2);color:var(--text);box-shadow:0 2px 8px rgba(0,0,0,0.2)}
+
+/* ===== DASHBOARD ===== */
+#dashboard-section{display:none;min-height:100vh;padding-top:72px;background:var(--bg)}
+#dashboard-section.open{display:block}
+.dashboard-layout{display:grid;grid-template-columns:260px 1fr;min-height:calc(100vh - 72px)}
+.sidebar{background:var(--bg2);border-right:1px solid var(--border);padding:24px;position:sticky;top:72px;height:calc(100vh - 72px);overflow-y:auto}
+.sidebar h3{font-family:'Syne',sans-serif;font-size:0.8rem;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:var(--text3);margin-bottom:12px;margin-top:24px}
+.sidebar h3:first-child{margin-top:0}
+.sidebar-btn{width:100%;padding:10px 14px;border-radius:10px;border:none;background:transparent;color:var(--text2);font-size:0.9rem;font-weight:500;text-align:left;cursor:pointer;transition:all var(--transition);display:flex;align-items:center;gap:10px;font-family:inherit}
+.sidebar-btn:hover,.sidebar-btn.active{background:var(--gold-dim);color:var(--gold)}
+.sidebar-btn.active{font-weight:600}
+.dashboard-main{padding:32px;overflow-y:auto}
+.dash-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:32px;flex-wrap:wrap;gap:16px}
+.dash-header h1{font-family:'Syne',sans-serif;font-size:1.6rem;font-weight:800}
+.search-bar{display:flex;align-items:center;gap:10px;background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:10px 16px;width:280px;transition:all var(--transition)}
+.search-bar:focus-within{border-color:rgba(212,168,67,0.4);box-shadow:0 0 0 3px var(--gold-dim)}
+.search-bar input{flex:1;background:none;border:none;outline:none;color:var(--text);font-size:0.9rem;font-family:inherit}
+.search-bar input::placeholder{color:var(--text3)}
+.filter-bar{display:flex;gap:8px;margin-bottom:28px;flex-wrap:wrap}
+.filter-chip{padding:8px 18px;border-radius:100px;background:var(--surface);border:1px solid var(--border);color:var(--text2);font-size:0.85rem;font-weight:600;cursor:pointer;transition:all var(--transition)}
+.filter-chip.active,.filter-chip:hover{background:var(--gold-dim);border-color:rgba(212,168,67,0.3);color:var(--gold)}
+.posts-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:20px}
+.post-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);overflow:hidden;transition:all var(--transition);cursor:pointer;position:relative}
+.post-card:hover{transform:translateY(-4px);border-color:rgba(212,168,67,0.25);box-shadow:var(--shadow)}
+.post-card-img{height:160px;background:linear-gradient(135deg,var(--surface2),var(--bg2));display:flex;align-items:center;justify-content:center;font-size:3rem;position:relative;overflow:hidden}
+.post-card-img .cat-bg{position:absolute;inset:0;opacity:0.08}
+.cat-bg.placements{background:linear-gradient(135deg,#4f8ef7,#7b6ef7)}
+.cat-bg.internships{background:linear-gradient(135deg,#d4a843,#f0c060)}
+.cat-bg.campus{background:linear-gradient(135deg,#4caf87,#7bc4a7)}
+.cat-bg.tech{background:linear-gradient(135deg,#e05a5a,#f07070)}
+.post-card-body{padding:20px}
+.post-meta{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+.cat-badge{padding:4px 12px;border-radius:100px;font-size:0.72rem;font-weight:700;text-transform:uppercase;letter-spacing:0.5px}
+.cat-badge.placements{background:rgba(79,142,247,0.12);color:var(--accent)}
+.cat-badge.internships{background:var(--gold-dim);color:var(--gold)}
+.cat-badge.campus{background:rgba(76,175,135,0.1);color:var(--green)}
+.cat-badge.tech{background:rgba(224,90,90,0.1);color:var(--red)}
+.bookmark-btn{width:30px;height:30px;border-radius:8px;background:none;border:1px solid var(--border);color:var(--text3);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all var(--transition);font-size:0.9rem}
+.bookmark-btn.saved{color:var(--gold);border-color:rgba(212,168,67,0.3);background:var(--gold-dim)}
+.bookmark-btn:hover{color:var(--gold);border-color:rgba(212,168,67,0.3)}
+.post-card-body h3{font-family:'Syne',sans-serif;font-size:1rem;font-weight:700;margin-bottom:8px;line-height:1.4}
+.post-card-body p{color:var(--text2);font-size:0.85rem;line-height:1.5;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.post-footer{display:flex;justify-content:space-between;align-items:center;margin-top:16px;padding-top:16px;border-top:1px solid var(--border)}
+.post-date{color:var(--text3);font-size:0.78rem}
+.read-more{color:var(--gold);font-size:0.83rem;font-weight:600}
+.skeleton{animation:shimmer 1.5s infinite}
+.skeleton-block{background:linear-gradient(90deg,var(--surface) 25%,var(--surface2) 50%,var(--surface) 75%);background-size:200% 100%;animation:shimmer 1.5s infinite;border-radius:8px}
+@keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
+
+/* ===== ARTICLE ===== */
+#article-section{display:none;position:fixed;inset:0;z-index:1500;background:var(--bg);overflow-y:auto;padding-top:72px}
+#article-section.open{display:block}
+.article-inner{max-width:720px;margin:0 auto;padding:48px 24px}
+.back-btn{display:inline-flex;align-items:center;gap:8px;padding:10px 20px;border-radius:12px;background:var(--surface);border:1px solid var(--border);color:var(--text2);font-size:0.88rem;font-weight:600;cursor:pointer;transition:all var(--transition);margin-bottom:36px}
+.back-btn:hover{color:var(--text);border-color:var(--gold);color:var(--gold)}
+.article-meta{display:flex;align-items:center;gap:12px;margin-bottom:24px;flex-wrap:wrap}
+.article-title{font-family:'Syne',sans-serif;font-size:clamp(1.6rem,3.5vw,2.2rem);font-weight:800;line-height:1.2;margin-bottom:20px}
+.article-date{color:var(--text3);font-size:0.85rem}
+.article-read-time{color:var(--text3);font-size:0.85rem}
+.article-divider{height:1px;background:var(--border);margin:28px 0}
+.article-content{color:var(--text2);line-height:1.9;font-size:1.05rem}
+.article-content p{margin-bottom:1.5em}
+.article-content h2{font-family:'Syne',sans-serif;color:var(--text);font-size:1.3rem;font-weight:700;margin-bottom:1em;margin-top:2em}
+.article-content ul{padding-left:1.5em;margin-bottom:1.5em}
+.article-content li{margin-bottom:0.5em}
+
+/* ===== LOADING ===== */
+#loading-overlay{position:fixed;inset:0;background:var(--bg);display:flex;align-items:center;justify-content:center;z-index:9999;transition:opacity 0.5s ease}
+#loading-overlay.hidden{opacity:0;pointer-events:none}
+.loader{text-align:center}
+.loader-logo{height:48px;margin:0 auto 24px;animation:logoLoad 1s ease both}
+@keyframes logoLoad{from{opacity:0;transform:scale(0.8)}to{opacity:1;transform:scale(1)}}
+.loader-bar{width:200px;height:3px;background:var(--surface);border-radius:3px;overflow:hidden;margin:0 auto}
+.loader-progress{height:100%;background:linear-gradient(90deg,var(--gold),var(--accent));border-radius:3px;animation:loadProgress 1.2s ease forwards}
+@keyframes loadProgress{from{width:0}to{width:100%}}
+.loader-text{color:var(--text3);font-size:0.85rem;margin-top:12px}
+
+/* ===== RESPONSIVE ===== */
+@media(max-width:1024px){
+  .features-grid{grid-template-columns:repeat(2,1fr)}
+  .footer-grid{grid-template-columns:1fr 1fr}
+  .domains-grid{grid-template-columns:repeat(2,1fr)}
+}
+@media(max-width:768px){
+  .nav-links{display:none}
+  .hamburger{display:flex}
+  .about-grid,.membership-grid,.connect-grid,.dashboard-layout{grid-template-columns:1fr}
+  .sidebar{position:static;height:auto;border-right:none;border-bottom:1px solid var(--border)}
+  .features-grid{grid-template-columns:1fr}
+  .hero-stats{gap:20px}
+  .founder-card{grid-column:span 1}
+  .footer-grid{grid-template-columns:1fr}
+  .cta-inner{padding:40px 24px}
+  .about-visual{display:none}
+  .search-bar{width:100%}
+  .dash-header{flex-direction:column;align-items:flex-start}
+  .article-inner{padding:24px 16px}
+}
+@media(max-width:480px){
+  .domains-grid{grid-template-columns:1fr 1fr}
+  .team-grid{grid-template-columns:1fr 1fr}
+}
+
+/* ===== ANIMATIONS ===== */
+.reveal{opacity:0;transform:translateY(30px);transition:opacity 0.7s ease,transform 0.7s ease}
+.reveal.visible{opacity:1;transform:translateY(0)}
+.reveal-delay-1{transition-delay:0.1s}
+.reveal-delay-2{transition-delay:0.2s}
+.reveal-delay-3{transition-delay:0.3s}
+.reveal-delay-4{transition-delay:0.4s}
+
+/* ===== NOTIFICATION ===== */
+.toast{position:fixed;bottom:24px;right:24px;background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:14px 20px;box-shadow:var(--shadow);z-index:3000;display:flex;align-items:center;gap:10px;font-size:0.9rem;font-weight:500;transform:translateY(100px);opacity:0;transition:all 0.3s ease}
+.toast.show{transform:translateY(0);opacity:1}
+.toast-icon{font-size:1.1rem}
+
+/* Section visible indicator */
+.section-num{font-family:'Syne',sans-serif;font-size:0.8rem;font-weight:700;color:var(--border);position:absolute;top:24px;right:5%;opacity:0.4}
+/* Grid Parallax Background */
+.hero {
+  position: relative;
+  overflow: hidden;
+}
+
+.hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: 
+    linear-gradient(rgba(255,255,255,0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.06) 1px, transparent 1px);
+  background-size: 40px 40px;
+  animation: gridMove 8s linear infinite;
+  z-index: -1;
+}
+
+/* Animation */
+@keyframes gridMove {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(40px);
+  }
+}
+</style>
+</head>
+<body>
+<div id="progress-bar"></div>
+<!-- Loading -->
+<div id="loading-overlay">
+  <div class="loader">
+    <img src="data:image/jpeg;base64,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" class="loader-logo" alt="SRM Insider">
+    <div class="loader-bar"><div class="loader-progress"></div></div>
+    <p class="loader-text">Loading SRM Insider...</p>
+  </div>
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast">
+  <span class="toast-icon">✓</span>
+  <span id="toast-text">Saved!</span>
+</div>
+
+<!-- Auth Modal -->
+<div id="auth-section">
+  <div class="auth-card">
+    <button class="auth-close" onclick="closeAuth()">✕</button>
+    <div class="auth-logo">
+      <img src="data:image/jpeg;base64,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" alt="logo">
+    </div>
+    <div class="auth-tabs">
+      <div class="auth-tab active" onclick="switchTab('login')">Login</div>
+      <div class="auth-tab" onclick="switchTab('signup')">Sign Up</div>
+    </div>
+    <!-- Login Form -->
+    <div id="login-form">
+      <h2 class="auth-title">Welcome back</h2>
+      <p class="auth-sub">Login to access SRM Insider dashboard</p>
+      <div class="form-group" id="email-group">
+        <label>Email Address</label>
+        <input type="email" id="login-email" placeholder="your@email.com">
+        <p class="error-msg">Please enter a valid email</p>
+      </div>
+      <div class="form-group" id="pass-group">
+        <label>Password</label>
+        <input type="password" id="login-pass" placeholder="••••••••">
+        <p class="error-msg">Password must be at least 6 characters</p>
+      </div>
+      <button class="btn-auth" onclick="handleLogin()">Login →</button>
+      <div class="auth-switch">Don't have an account? <span onclick="switchTab('signup')">Sign up</span></div>
+    </div>
+    <!-- Signup Form -->
+    <div id="signup-form" style="display:none">
+      <h2 class="auth-title">Join the Community</h2>
+      <p class="auth-sub">Create your SRM Insider account</p>
+      <div class="form-group"><label>Full Name</label><input type="text" id="signup-name" placeholder="Arjun Kumar"><p class="error-msg">Name is required</p></div>
+      <div class="form-group"><label>SRM Email</label><input type="email" id="signup-email" placeholder="ra2xxx@srmist.edu.in"><p class="error-msg">Please enter a valid email</p></div>
+      <div class="form-group"><label>Password</label><input type="password" id="signup-pass" placeholder="••••••••"><p class="error-msg">Minimum 6 characters</p></div>
+      <button class="btn-auth" onclick="handleSignup()">Create Account →</button>
+      <div class="auth-switch">Already have an account? <span onclick="switchTab('login')">Login</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- Article View -->
+<div id="article-section">
+  <nav style="background:var(--bg2);border-bottom:1px solid var(--border)">
+    <div class="nav-logo"><a href="#" onclick="closeArticle()"><img src="data:image/jpeg;base64,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" alt="logo"></a></div>
+    <div style="display:flex;gap:12px;align-items:center">
+      <button class="btn-secondary" style="padding:8px 18px;font-size:0.88rem" onclick="closeArticle()">← Back to Dashboard</button>
+    </div>
+  </nav>
+  <div class="article-inner" id="article-content"></div>
+</div>
+
+<!-- Dashboard Section -->
+<div id="dashboard-section">
+  <nav style="background:var(--bg2);border-bottom:1px solid var(--border);position:fixed;top:0;left:0;right:0;z-index:100;height:72px;display:flex;align-items:center;padding:0 5%;justify-content:space-between">
+    <div class="nav-logo">
+      <img src="data:image/jpeg;base64,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" alt="logo" style="height:36px">
+    </div>
+    <div style="display:flex;gap:12px;align-items:center">
+      <button class="theme-toggle" onclick="toggleTheme()" title="Toggle theme">🌙</button>
+      <button class="btn-nav-login" onclick="exitDashboard()">← Back to Site</button>
+    </div>
+  </nav>
+  <div class="dashboard-layout">
+    <aside class="sidebar">
+      <h3>Browse</h3>
+      <button class="sidebar-btn active" onclick="filterSidebar('all',this)">🏠 All Posts</button>
+      <button class="sidebar-btn" onclick="filterSidebar('placements',this)">💼 Placements</button>
+      <button class="sidebar-btn" onclick="filterSidebar('internships',this)">🚀 Internships</button>
+      <button class="sidebar-btn" onclick="filterSidebar('campus',this)">🎓 Campus Life</button>
+      <button class="sidebar-btn" onclick="filterSidebar('tech',this)">💻 Tech</button>
+      <h3>Saved</h3>
+      <button class="sidebar-btn" onclick="showBookmarks()">🔖 Bookmarks</button>
+      <h3>About</h3>
+      <button class="sidebar-btn" onclick="exitDashboard()">← Main Site</button>
+    </aside>
+    <main class="dashboard-main">
+      <div class="dash-header">
+        <h1> Latest Posts</h1>
+        <div class="search-bar">
+          <span style="color:var(--text3);font-size:0.9rem">🔍</span>
+          <input type="text" id="search-input" placeholder="Search posts..." oninput="searchPosts(this.value)">
+        </div>
+      </div>
+      <div class="filter-bar" id="filter-bar">
+        <div class="filter-chip active" onclick="filterCategory('all',this)">All</div>
+        <div class="filter-chip" onclick="filterCategory('placements',this)">💼 Placements</div>
+        <div class="filter-chip" onclick="filterCategory('internships',this)">🚀 Internships</div>
+        <div class="filter-chip" onclick="filterCategory('campus',this)">🎓 Campus Life</div>
+        <div class="filter-chip" onclick="filterCategory('tech',this)">💻 Tech</div>
+      </div>
+      <div class="posts-grid" id="posts-grid"></div>
+    </main>
+  </div>
+</div>
+
+<!-- MAIN WEBSITE -->
+<div id="main-site">
+
+<!-- Navbar -->
+<nav id="navbar">
+  <div class="nav-logo">
+    <img src="data:image/jpeg;base64,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" alt="SRM Insider" style="height:36px">
+  </div>
+  <div class="nav-links">
+    <a href="#about">About</a>
+    <a href="#features">Features</a>
+    <a href="#projects">Projects</a>
+    <a href="#team">Team</a>
+    <a href="#membership">Join</a>
+  </div>
+  <div class="nav-right">
+    <button class="theme-toggle" onclick="toggleTheme()" title="Toggle theme">🌙</button>
+    <button class="btn-nav-login" onclick="openAuth()">Login</button>
+  </div>
+  <div class="hamburger" onclick="toggleMobileMenu()" id="hamburger">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<!-- Mobile Menu -->
+<div class="mobile-menu" id="mobile-menu">
+  <a href="#about" onclick="closeMobileMenu()">About</a>
+  <a href="#features" onclick="closeMobileMenu()">Features</a>
+  <a href="#projects" onclick="closeMobileMenu()">Projects</a>
+  <a href="#team" onclick="closeMobileMenu()">Team</a>
+  <a href="#membership" onclick="closeMobileMenu()">Join Us</a>
+  <a href="#" onclick="openAuth();closeMobileMenu()" style="color:var(--gold);font-weight:700">Login →</a>
+</div>
+
+<!-- HERO -->
+<section id="hero" class="hero">
+  <div class="hero-bg">
+    <div class="hero-orb orb1"></div>
+    <div class="hero-orb orb2"></div>
+    <div class="hero-orb orb3"></div>
+    <div class="hero-grid"></div>
+  </div>
+  <div class="hero-content">
+    <div class="hero-badge"><span class="dot"></span>Student-Led Community Since 2024</div>
+    <h1 class="hero-title font-display">
+      <span class="line1">Your Campus.</span>
+      <span class="highlight">Your Community.</span>
+      Your Future.
+    </h1>
+    <p class="hero-sub">SRM Insider is a student-driven platform connecting SRM students with placements, internships, campus life, and real-world projects.</p>
+    <div class="hero-stats">
+      <div class="stat-item"><span class="stat-num">51.9K</span><span class="stat-label">Reach in 14 Days</span></div>
+      <div class="stat-item"><span class="stat-num">100+</span><span class="stat-label">Community Members</span></div>
+      <div class="stat-item"><span class="stat-num">5+</span><span class="stat-label">Live Projects</span></div>
+      <div class="stat-item"><span class="stat-num">4</span><span class="stat-label">SRM Campuses</span></div>
+    </div>
+    <div class="hero-actions">
+      <button class="btn-primary" onclick="openDashboard()">Explore Dashboard →</button>
+      <a href="#about" class="btn-secondary">Learn More</a>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="about-grid">
+    <div class="about-visual reveal">
+      <div class="about-card-main">
+        <div class="community-icon">🏛️</div>
+        <h3>SRM Insider Community</h3>
+        <p>A student-led initiative founded in early 2024, bridging the gap between students and impactful resources. We operate as a centralized hub for building digital tools, driving student engagement, and fostering innovation on campus.</p>
+        <div class="about-pills">
+          <span class="pill">💡 Innovation</span>
+          <span class="pill">🤝 Collaboration</span>
+          <span class="pill">🌐 Inclusivity</span>
+          <span class="pill">📊 Transparency</span>
+          <span class="pill">🎯 Impact</span>
+        </div>
+      </div>
+      <div class="floating-badge a">✓ D2D Collaboration</div>
+      <div class="floating-badge b">🔗 LinkedIn: SRM Insider</div>
+    </div>
+    <div class="about-content reveal reveal-delay-1">
+      <span class="section-label">About Us</span>
+      <h2 class="section-title font-display">Built By Students,<br>For Students</h2>
+      <p class="section-desc">Our mission is to create purpose-driven platforms that solve real student problems, foster collaboration, and guide students through placement preparation and career development.</p>
+      <div class="values-grid">
+        <div class="value-item"><div class="value-icon">🚀</div><h4>Innovation</h4><p>Constantly experimenting with new ideas and tech-forward thinking.</p></div>
+        <div class="value-item"><div class="value-icon">🤝</div><h4>Collaboration</h4><p>Working across domains, valuing every voice and contribution.</p></div>
+        <div class="value-item"><div class="value-icon">🌍</div><h4>Inclusivity</h4><p>Welcome to all students regardless of background or domain.</p></div>
+        <div class="value-item"><div class="value-icon">🎯</div><h4>Impact</h4><p>Every project designed to serve and empower the student community.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section id="features">
+  <div class="section-header" style="text-align:center">
+    <span class="section-label" style="justify-content:center">What We Offer</span>
+    <h2 class="section-title font-display">Everything Students Need</h2>
+    <p class="section-desc" style="margin:0 auto">From placement prep to campus life, we cover it all in one platform.</p>
+  </div>
+  <div class="features-grid">
+    <div class="feature-card reveal">
+      <div class="feature-icon">💼</div>
+      <h3>Placements</h3>
+      <p>Get exclusive insights, company-specific prep guides, and peer experiences to crack your dream placement.</p>
+    </div>
+    <div class="feature-card reveal reveal-delay-1">
+      <div class="feature-icon">🚀</div>
+      <h3>Internships</h3>
+      <p>Discover internship opportunities, application tips, and real stories from students who've been there.</p>
+    </div>
+    <div class="feature-card reveal reveal-delay-2">
+      <div class="feature-icon">🎓</div>
+      <h3>Campus Life</h3>
+      <p>Stay connected with events, clubs, cultural fests, and everything happening across SRM campuses.</p>
+    </div>
+    <div class="feature-card reveal reveal-delay-3">
+      <div class="feature-icon">💻</div>
+      <h3>Tech Projects</h3>
+      <p>Join hands-on real-world software projects designed to build your portfolio and grow your skills.</p>
+    </div>
+    <div class="feature-card reveal reveal-delay-1">
+      <div class="feature-icon">🧠</div>
+      <h3>Career Guidance</h3>
+      <p>Placement prep, soft skills training, and mentorship from seniors and alumni who've made it.</p>
+    </div>
+    <div class="feature-card reveal reveal-delay-2">
+      <div class="feature-icon">🤝</div>
+      <h3>Community Network</h3>
+      <p>Connect with like-minded students, find project partners, and build lasting professional relationships.</p>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="section-header">
+    <span class="section-label">Our Work</span>
+    <h2 class="section-title font-display">Flagship Projects</h2>
+    <p class="section-desc">Student problems solved through tech. Each project is live, real, and impactful.</p>
+  </div>
+  <div class="projects-container">
+    <div class="project-card reveal">
+      <div class="project-card-top">
+        <div class="project-logo">🏠</div>
+        <a href="https://srmroomie.srminsider.live/signin" target="_blank" class="project-link-btn" title="Visit">↗</a>
+      </div>
+      <div class="project-card-body">
+        <div class="project-name">SRM Roomie</div>
+        <div class="project-desc">A roommate-finding platform for freshers to connect based on preferences like location, stream, and hostel type.</div>
+        <div class="project-tags"><span class="tag gold">Live</span><span class="tag blue">React</span><span class="tag">Community</span></div>
+      </div>
+    </div>
+    <div class="project-card reveal reveal-delay-1">
+      <div class="project-card-top">
+        <div class="project-logo">🔐</div>
+        <a href="https://vaultify.srminsider.live/" target="_blank" class="project-link-btn" title="Visit">↗</a>
+      </div>
+      <div class="project-card-body">
+        <div class="project-name">Vaultify</div>
+        <div class="project-desc">Secure storage for academic documents — mark sheets, certificates, ID cards — all accessible in one click.</div>
+        <div class="project-tags"><span class="tag gold">Live</span><span class="tag purple">Security</span><span class="tag">Academics</span></div>
+      </div>
+    </div>
+    <div class="project-card reveal reveal-delay-2">
+      <div class="project-card-top">
+        <div class="project-logo">🎯</div>
+        <a href="https://seat.finder.srminsider.live/" target="_blank" class="project-link-btn" title="Visit">↗</a>
+      </div>
+      <div class="project-card-body">
+        <div class="project-name">SRM Seat Finder</div>
+        <div class="project-desc">Predict branch and seat allocation chances using smart filters and previous year SRMIST data.</div>
+        <div class="project-tags"><span class="tag gold">Live</span><span class="tag blue">Analytics</span><span class="tag">Admissions</span></div>
+      </div>
+    </div>
+    <div class="project-card reveal reveal-delay-3">
+      <div class="project-card-top">
+        <div class="project-logo">🤖</div>
+        <a href="https://t.me/srm_academia_bot" target="_blank" class="project-link-btn" title="Visit">↗</a>
+      </div>
+      <div class="project-card-body">
+        <div class="project-name">Telegram Bot</div>
+        <div class="project-desc">A fast, easy-to-use bot for forms, tools, and updates directly on Telegram — always at your fingertips.</div>
+        <div class="project-tags"><span class="tag gold">Live</span><span class="tag purple">Bot</span><span class="tag">Automation</span></div>
+      </div>
+    </div>
+    <div class="project-card reveal">
+      <div class="project-card-top">
+        <div class="project-logo">🔍</div>
+        <a href="https://lf.srminsider.live/" target="_blank" class="project-link-btn" title="Visit">↗</a>
+      </div>
+      <div class="project-card-body">
+        <div class="project-name">SRM Lost & Found</div>
+        <div class="project-desc">Helping students find lost items across all SRM campuses — a campus-wide solution for everyone.</div>
+        <div class="project-tags"><span class="tag gold">Live</span><span class="tag blue">Campus</span><span class="tag">All Campuses</span></div>
+      </div>
+    </div>
+    <div class="project-card reveal reveal-delay-1" style="opacity:0.8">
+      <div class="project-card-top">
+        <div class="project-logo">📚</div>
+        <div class="project-link-btn" style="cursor:not-allowed;opacity:0.5">🔒</div>
+      </div>
+      <div class="project-card-body">
+        <div class="project-name">SRM E-Library</div>
+        <div class="project-desc">A centralized platform for notes, previous year papers, and academic resources contributed by students.</div>
+        <div class="project-tags"><span class="tag" style="color:var(--text3)">Coming Soon</span><span class="tag">Academics</span><span class="tag">Resources</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DOMAINS -->
+<section id="domains" style="background:var(--bg3)">
+  <div class="section-header" style="text-align:center">
+    <span class="section-label" style="justify-content:center">Our Expertise</span>
+    <h2 class="section-title font-display">Key Domains & Focus Areas</h2>
+    <p class="section-desc" style="margin:0 auto">Multi-disciplinary teams working across every aspect of student life.</p>
+  </div>
+  <div class="domains-grid">
+    <div class="domain-chip reveal"><div class="d-icon">⚙️</div><h4>Tech Development</h4><p>Building student-centric platforms and tools</p></div>
+    <div class="domain-chip reveal reveal-delay-1"><div class="d-icon">🎨</div><h4>UI/UX & Design</h4><p>User-first interfaces for accessibility</p></div>
+    <div class="domain-chip reveal reveal-delay-2"><div class="d-icon">📣</div><h4>Marketing</h4><p>Community outreach and user growth</p></div>
+    <div class="domain-chip reveal reveal-delay-3"><div class="d-icon">📱</div><h4>Social Media</h4><p>Branding and digital presence</p></div>
+    <div class="domain-chip reveal"><div class="d-icon">✍️</div><h4>Content & Strategy</h4><p>Engaging content aligned with student needs</p></div>
+    <div class="domain-chip reveal reveal-delay-1"><div class="d-icon">🎪</div><h4>Events & Ops</h4><p>Meetups, onboarding, project execution</p></div>
+    <div class="domain-chip reveal reveal-delay-2"><div class="d-icon">💼</div><h4>Career Dev</h4><p>Placement prep, internship guidance</p></div>
+    <div class="domain-chip reveal reveal-delay-3"><div class="d-icon">🔧</div><h4>Hardware & IoT</h4><p>Innovative hardware prototypes</p></div>
+  </div>
+</section>
+
+<!-- TEAM -->
+<section id="team">
+  <div class="section-header">
+    <span class="section-label">The People</span>
+    <h2 class="section-title font-display">Meet the Insiders</h2>
+    <p class="section-desc">The core team driving SRM Insider's mission forward.</p>
+  </div>
+  <div class="team-grid">
+    <div class="team-card founder-card reveal">
+      <div class="founder-badge">★ Founder & President</div>
+      <div class="team-avatar" style="width:80px;height:80px;border-radius:24px;font-size:1.8rem">AT</div>
+      <div class="team-name">Anuj Tiwari</div>
+      <div class="team-role">Founder & President</div>
+      <div class="team-year">4th Year</div>
+      <a href="https://www.linkedin.com/in/anuj-rishu" target="_blank" class="team-linkedin">🔗 LinkedIn</a>
+    </div>
+    <div class="team-card reveal reveal-delay-1"><div class="team-avatar">KK</div><div class="team-name">Kshitiz Kamal</div><div class="team-role">Core Insider</div><div class="team-year">4th Year</div><a href="https://www.linkedin.com/in/kshitizkamal" target="_blank" class="team-linkedin">🔗 LinkedIn</a></div>
+    <div class="team-card reveal reveal-delay-2"><div class="team-avatar">AD</div><div class="team-name">Ayush Dwibedi</div><div class="team-role">Core Insider</div><div class="team-year">2nd Year</div><a href="https://www.linkedin.com/in/ayush-dwibedi-9670252a8" target="_blank" class="team-linkedin">🔗 LinkedIn</a></div>
+    <div class="team-card reveal reveal-delay-3"><div class="team-avatar">AJ</div><div class="team-name">Arihant Jain</div><div class="team-role">Core Insider</div><div class="team-year">3rd Year</div><a href="https://www.linkedin.com/in/arihantjain6739/" target="_blank" class="team-linkedin">🔗 LinkedIn</a></div>
+    <div class="team-card reveal"><div class="team-avatar">PG</div><div class="team-name">Pulkit Gosain</div><div class="team-role">Core Insider</div><div class="team-year">3rd Year</div><a href="https://www.linkedin.com/in/pulkit-gosain-684158287" target="_blank" class="team-linkedin">🔗 LinkedIn</a></div>
+    <div class="team-card reveal reveal-delay-1"><div class="team-avatar">AK</div><div class="team-name">Aditya Khandelwal</div><div class="team-role">Core Insider</div><div class="team-year">3rd Year</div><a href="https://www.linkedin.com/in/adityakhandelwal9" target="_blank" class="team-linkedin">🔗 LinkedIn</a></div>
+    <div class="team-card reveal reveal-delay-2"><div class="team-avatar">YP</div><div class="team-name">Yash Phoghat</div><div class="team-role">Core Insider</div><div class="team-year">3rd Year</div><a href="https://www.linkedin.com/in/yash-phoghat" target="_blank" class="team-linkedin">🔗 LinkedIn</a></div>
+    <div class="team-card reveal reveal-delay-3"><div class="team-avatar">KB</div><div class="team-name">Krishna Keshab Banik</div><div class="team-role">Core Insider</div><div class="team-year">2nd Year</div><a href="https://www.linkedin.com/in/krishna-keshab-banik-067819324/" target="_blank" class="team-linkedin">🔗 LinkedIn</a></div>
+  </div>
+</section>
+
+<!-- MEMBERSHIP -->
+<section id="membership" style="background:var(--bg2)">
+  <div class="membership-grid">
+    <div>
+      <span class="section-label">Join the Club</span>
+      <h2 class="section-title font-display">Become an Insider</h2>
+      <p class="section-desc">Open to all SRM students from any year or department. The selection process is transparent and merit-based.</p>
+      <div class="membership-steps">
+        <div class="step reveal"><div class="step-num">1</div><div class="step-content"><h4>Application</h4><p>Fill out the interest form sharing your skills and domain preferences.</p></div></div>
+        <div class="step reveal reveal-delay-1"><div class="step-num">2</div><div class="step-content"><h4>Task Round</h4><p>Complete a domain-specific task demonstrating your abilities.</p></div></div>
+        <div class="step reveal reveal-delay-2"><div class="step-num">3</div><div class="step-content"><h4>Short Interview</h4><p>A brief conversation about your goals and alignment with our vision.</p></div></div>
+        <div class="step reveal reveal-delay-3"><div class="step-num">4</div><div class="step-content"><h4>Background Check</h4><p>Final verification before you officially join the community.</p></div></div>
+      </div>
+    </div>
+    <div class="reveal reveal-delay-2">
+      <h3 class="font-display" style="font-size:1.2rem;font-weight:700;margin-bottom:20px">Member Benefits</h3>
+      <div class="benefits-list">
+        <div class="benefit"><span class="benefit-icon">✓</span><div><h4>Real Project Exposure</h4><p>Work on live, impactful products used by SRM students.</p></div></div>
+        <div class="benefit"><span class="benefit-icon">✓</span><div><h4>Certificate & Portfolio</h4><p>Portfolio-worthy experience with official certificates.</p></div></div>
+        <div class="benefit"><span class="benefit-icon">✓</span><div><h4>Networking & Mentorship</h4><p>Connect with seniors, alumni, and industry professionals.</p></div></div>
+        <div class="benefit"><span class="benefit-icon">✓</span><div><h4>Priority Event Access</h4><p>First access to Insider events, workshops, and launches.</p></div></div>
+        <div class="benefit"><span class="benefit-icon">✓</span><div><h4>Career Guidance</h4><p>Placement prep and career support from peers and mentors.</p></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONNECT -->
+<section id="connect">
+  <div class="section-header" style="text-align:center">
+    <span class="section-label" style="justify-content:center">Partnerships</span>
+    <h2 class="section-title font-display">Collaborate With Us</h2>
+    <p class="section-desc" style="margin:0 auto">We're open to building meaningful partnerships that amplify student potential.</p>
+  </div>
+  <div class="connect-grid">
+    <div class="collab-box reveal"><h3>🤝 Inter-Club Collabs</h3><p>Partner with us on projects, outreach, and events. We've already connected with D2D (Dorm to Dorm) for joint workshops.</p></div>
+    <div class="collab-box reveal reveal-delay-1"><h3>🎓 Alumni Mentorships</h3><p>Guide students through your experience. We connect alumni with active learners who need real-world perspective.</p></div>
+    <div class="collab-box reveal reveal-delay-2"><h3>💰 Sponsorships</h3><p>Support our tools and events. Your brand gets visibility across 51.9K+ reach and a highly engaged student community.</p></div>
+    <div class="collab-box reveal reveal-delay-3"><h3>🎤 Guest Sessions</h3><p>Share your domain expertise through workshops, talks, or webinars hosted by SRM Insider for our growing community.</p></div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section id="cta">
+  <div class="cta-inner reveal">
+    <h2 class="font-display">Ready to Be Part of Something <span class="highlight">Bigger?</span></h2>
+    <p>Join over 100 students already shaping the future of SRM through technology, creativity, and community.</p>
+    <div style="display:flex;gap:16px;justify-content:center;flex-wrap:wrap">
+      <button class="btn-primary" onclick="openAuth()">Join SRM Insider →</button>
+      <button class="btn-secondary" onclick="openDashboard()">Explore Dashboard</button>
+    </div>
+    <div class="social-links">
+      <a href="https://www.instagram.com/srm_insider_community" target="_blank" class="social-btn">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+        Instagram
+      </a>
+      <a href="https://www.linkedin.com/company/srm-insider-community" target="_blank" class="social-btn">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+        LinkedIn
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <img src="data:image/jpeg;base64,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" alt="logo">
+      <p>A student-driven community empowering SRM students through technology, collaboration, and innovation. Founded in 2024.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Platform</h4>
+      <a href="#" onclick="openDashboard()">Dashboard</a>
+      <a href="#features">Features</a>
+      <a href="#projects">Projects</a>
+      <a href="#membership">Join Us</a>
+    </div>
+    <div class="footer-col">
+      <h4>Projects</h4>
+      <a href="https://srmroomie.srminsider.live/" target="_blank">SRM Roomie</a>
+      <a href="https://vaultify.srminsider.live/" target="_blank">Vaultify</a>
+      <a href="https://seat.finder.srminsider.live/" target="_blank">Seat Finder</a>
+      <a href="https://lf.srminsider.live/" target="_blank">Lost & Found</a>
+    </div>
+    <div class="footer-col">
+      <h4>Connect</h4>
+      <a href="https://www.instagram.com/srm_insider_community" target="_blank">Instagram</a>
+      <a href="https://www.linkedin.com/company/srm-insider-community" target="_blank">LinkedIn</a>
+      <a href="https://t.me/srm_academia_bot" target="_blank">Telegram Bot</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2024 SRM Insider Community. Made with ❤️ by students, for students.</p>
+    <p style="color:var(--text3);font-size:0.83rem">SRMIST · All SRM Campuses</p>
+  </div>
+</footer>
+
+</div><!-- /main-site -->
+
+<script>
+// ===== DATA =====
+const POSTS = [
+  { id:1, title:"How I Cracked TCS with 3 LPA — My Full Prep Strategy", category:"placements", emoji:"💼", desc:"A step-by-step breakdown of aptitude, technical, and HR rounds that landed me a TCS offer letter.", date:"Mar 28, 2025", readTime:"8 min read", content:`<h2>My TCS Placement Journey</h2><p>Getting placed at TCS was a dream I chased for two years of my college life. Here's exactly what worked for me — no fluff, just the real strategy.</p><h2>The Aptitude Round</h2><p>TCS uses a custom platform called TCS NQT. The aptitude has 3 sections: Reasoning, English, and Numerical. I practiced daily on PrepInsta and GeeksforGeeks for 30 minutes each morning for 60 days straight.</p><h2>Technical Round Tips</h2><p>Focus on core CS subjects: Data Structures, DBMS, OS, and OOPs. I made flashcards for every concept and revised them weekly. For coding, LeetCode Easy + Medium problems in C++ were my go-to.</p><h2>HR Round</h2><p>The HR round is mostly about attitude. Be honest, be confident, and know your resume inside out. They asked about my projects — which is why having real projects like those from SRM Insider helped me stand out.</p>` },
+  { id:2, title:"Top 5 Internship Platforms Every SRM Student Must Know", category:"internships", emoji:"🚀", desc:"Curated list of the best platforms to find remote and on-campus internships with filters for SRM students.", date:"Mar 24, 2025", readTime:"5 min read", content:`<h2>Finding Internships as an SRM Student</h2><p>The internship hunt is real. But with the right platforms, you can cut through the noise and find opportunities that actually match your profile.</p><h2>1. Internshala</h2><p>The classic. Filter by stipend, duration, and remote/onsite. Apply to at least 5-10 positions per week for consistent results.</p><h2>2. LinkedIn</h2><p>Don't just scroll — reach out. Cold DMs to recruiters with a personalized note have a surprisingly high response rate if done right.</p><h2>3. AngelList (Wellfound)</h2><p>Best for startup internships. Startups move fast and are willing to take bets on motivated students.</p><h2>4. GeeksForGeeks Jobs</h2><p>Great for technical internships with direct coding assessments built in.</h2><h2>5. SRM Insider Dashboard</h2><p>We curate opportunities shared by seniors and alumni directly relevant to SRM students. Check back weekly!</p>` },
+  { id:3, title:"Techofes 2025 — Everything You Need to Know", category:"campus", emoji:"🎓", desc:"The complete guide to SRM's biggest annual tech fest — schedule, events, prizes, and registration links.", date:"Mar 20, 2025", readTime:"6 min read", content:`<h2>Techofes 2025 at a Glance</h2><p>Techofes is back and bigger than ever. As SRM's flagship tech fest, it brings together thousands of students across all campuses for three days of competitions, workshops, and networking.</p><h2>Key Events</h2><p>This year's highlights include a 36-hour hackathon with ₹5L prize pool, competitive coding contests, robotics wars, UI/UX design sprints, and a startup pitch competition judged by real investors.</p><h2>Registration</h2><p>Most events are free for SRM students with your RA number. Check the official Techofes website or follow @techofes on Instagram for updates.</p><h2>Pro Tips</h2><p>Form teams early. The best projects we saw at last year's hackathon were from teams that had been working together for weeks beforehand. Use SRM Insider's Team Finder (coming soon) to connect with project partners!</p>` },
+  { id:4, title:"Building SRM Roomie — Lessons from Our First Product", category:"tech", emoji:"💻", desc:"Behind-the-scenes look at how the SRM Insider team built and launched the Roomie platform in just 3 weeks.", date:"Mar 15, 2025", readTime:"10 min read", content:`<h2>From Idea to Live Product in 3 Weeks</h2><p>SRM Roomie started from a simple frustration: freshers had no easy way to find compatible roommates. WhatsApp groups were chaotic. We decided to build something better.</p><h2>The Stack</h2><p>We went with React for the frontend, Node.js + Express for the backend, and MongoDB for the database. Deployment on Vercel + Railway kept costs near zero.</p><h2>The Design Process</h2><p>Our UI/UX team ran quick user interviews with 20 freshers to understand what filters actually mattered: stream, hostel type, sleep schedule, and native city. We built those first.</p><h2>Launch & Growth</h2><p>We announced on Instagram and got 500 signups in the first 48 hours. The biggest lesson: ship fast, get feedback, iterate. Don't wait for perfect.</p>` },
+  { id:5, title:"Deloitte vs Infosys vs Wipro — Which One Is Right For You?", category:"placements", emoji:"💼", desc:"Comparing culture, salary, growth trajectory and work-life balance at the three biggest IT firms for freshers.", date:"Mar 10, 2025", readTime:"7 min read", content:`<h2>The Big Three IT Companies: A Real Comparison</h2><p>As a fresher, you'll likely get offers from multiple IT companies. Here's how to evaluate which one actually fits your goals.</p><h2>Salary</h2><p>Infosys and Wipro typically offer ₹3.5-4.5 LPA for freshers. Deloitte starts higher at ₹6-9 LPA for tech roles but has a more rigorous selection process.</p><h2>Culture</h2><p>Wipro has a more structured, traditional corporate culture. Infosys has invested heavily in upskilling through their Springboard platform. Deloitte has a consulting-oriented culture with faster growth but higher pressure.</p><h2>Growth Trajectory</h2><p>All three have robust learning programs. The key differentiator is how proactive you are about using them. Internal transfers, project rotations, and certifications matter everywhere.</p>` },
+  { id:6, title:"Getting Your First ML Internship — A Practical Guide", category:"internships", emoji:"🚀", desc:"Real advice from students who successfully landed ML internships at startups and MNCs without prior experience.", date:"Mar 5, 2025", readTime:"9 min read", content:`<h2>Breaking Into ML Internships with No Experience</h2><p>The catch-22 of ML internships: they want experience, but you can't get experience without one. Here's how to break the cycle.</p><h2>Build a Portfolio First</h2><p>Do 3-5 Kaggle competitions. Write about them on a blog or LinkedIn. Even placing in the top 40% shows consistent effort and analytical thinking.</p><h2>The Right Courses</h2><p>Andrew Ng's Machine Learning Specialization on Coursera is the gold standard. Fast.ai is great for practical deep learning. Pick one, finish it, build something with it.</p><h2>Cold Outreach Works</h2><p>Find ML engineers on LinkedIn at startups you admire. Send a specific, personalized message mentioning something about their work. A 5-10% response rate is realistic and that's all you need.</p>` },
+  { id:7, title:"SRM Lost & Found — How We Built It Across 4 Campuses", category:"tech", emoji:"💻", desc:"Technical deep-dive into the architecture and challenges of building a multi-campus lost & found system.", date:"Feb 28, 2025", readTime:"11 min read", content:`<h2>Multi-Campus Architecture Challenges</h2><p>Building SRM Lost & Found across 4 campuses was our most ambitious infrastructure project. Each campus needed independent data while sharing a unified search experience.</p><h2>The Technical Decision</h2><p>We opted for a single backend with campus tags on each item rather than separate databases. This made cross-campus search trivially easy and simplified our deployment story.</p><h2>Image Handling</h2><p>Users can upload images of lost items. We used Cloudinary for image storage and Sharp for compression. The average upload is under 100KB after optimization.</p><h2>Notification System</h2><p>When a found item is claimed, we send a confirmation email using Nodemailer. Future iteration: push notifications via a PWA.</p>` },
+  { id:8, title:"Saarang, IIT Madras — What SRM Students Said", category:"campus", emoji:"🎓", desc:"First-hand accounts from SRM students who attended India's biggest cultural festival and what they learned.", date:"Feb 22, 2025", readTime:"5 min read", content:`<h2>SRM at Saarang 2025</h2><p>Every year, dozens of SRM students travel to IIT Madras for Saarang — India's largest student-run cultural festival. Here's what made this year special.</p><h2>Networking Gold</h2><p>The Pro Shows brought together students from 200+ colleges. The connections made in the audience and at afterparties often turn into collaborators, study buddies, and even co-founders.</p><h2>Competition Highlights</h2><p>Our team placed in the top 10 of the Hackathon event with our campus-specific productivity tool. The exposure to IIT talent was both humbling and motivating.</p><h2>Tips for Next Year</h2><p>Register early — spots fill up in hours. Plan accommodation 2 months in advance. And bring your resume — informal recruiter interactions happen more often than you'd think at these events.</p>` },
+];
+
+let currentFilter = 'all';
+let bookmarks = new Set();
+let searchQuery = '';
+
+// ===== THEME =====
+function toggleTheme(){
+  const html = document.documentElement;
+  const isDark = html.getAttribute('data-theme') === 'dark';
+  html.setAttribute('data-theme', isDark ? 'light' : 'dark');
+  document.querySelectorAll('.theme-toggle').forEach(btn => {
+    btn.textContent = isDark ? '🌙' : '☀️';
+  });
+}
+
+// ===== NAVBAR =====
+window.addEventListener('scroll', ()=>{
+  const nav = document.getElementById('navbar');
+  if(nav) nav.classList.toggle('scrolled', window.scrollY > 20);
+});
+window.addEventListener("scroll", () => {
+  let scroll = window.scrollY;
+  let height = document.body.scrollHeight - window.innerHeight;
+  let progress = (scroll / height) * 100;
+
+  document.getElementById("progress-bar").style.width = progress + "%";
+});
+function toggleMobileMenu(){
+  document.getElementById('mobile-menu').classList.toggle('open');
+}
+function closeMobileMenu(){
+  document.getElementById('mobile-menu').classList.remove('open');
+}
+
+// ===== AUTH =====
+function openAuth(){
+  document.getElementById('auth-section').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeAuth(){
+  document.getElementById('auth-section').classList.remove('open');
+  document.body.style.overflow = '';
+}
+function switchTab(tab){
+  document.querySelectorAll('.auth-tab').forEach((t,i)=>{
+    t.classList.toggle('active', (tab==='login'&&i===0)||(tab==='signup'&&i===1));
+  });
+  document.getElementById('login-form').style.display = tab==='login'?'block':'none';
+  document.getElementById('signup-form').style.display = tab==='signup'?'block':'none';
+}
+function handleLogin(){
+  const email = document.getElementById('login-email').value;
+  const pass = document.getElementById('login-pass').value;
+  let valid = true;
+  if(!email||!email.includes('@')){document.getElementById('email-group').classList.add('has-error');valid=false}else{document.getElementById('email-group').classList.remove('has-error')}
+  if(!pass||pass.length<6){document.getElementById('pass-group').classList.add('has-error');valid=false}else{document.getElementById('pass-group').classList.remove('has-error')}
+  if(valid){closeAuth();openDashboard();showToast('Welcome back! 👋')}
+}
+function handleSignup(){
+  const name=document.getElementById('signup-name').value;
+  const email=document.getElementById('signup-email').value;
+  const pass=document.getElementById('signup-pass').value;
+  let valid=true;
+  if(!name){document.querySelector('#signup-form .form-group:nth-child(1)').classList.add('has-error');valid=false}else{document.querySelector('#signup-form .form-group:nth-child(1)').classList.remove('has-error')}
+  if(!email||!email.includes('@')){document.querySelector('#signup-form .form-group:nth-child(2)').classList.add('has-error');valid=false}else{document.querySelector('#signup-form .form-group:nth-child(2)').classList.remove('has-error')}
+  if(!pass||pass.length<6){document.querySelector('#signup-form .form-group:nth-child(3)').classList.add('has-error');valid=false}else{document.querySelector('#signup-form .form-group:nth-child(3)').classList.remove('has-error')}
+  if(valid){closeAuth();openDashboard();showToast('Account created! Welcome to SRM Insider 🎉')}
+}
+
+// ===== DASHBOARD =====
+function openDashboard(){
+  document.getElementById('main-site').style.display = 'none';
+  document.getElementById('dashboard-section').classList.add('open');
+  renderPosts();
+}
+function exitDashboard(){
+  document.getElementById('main-site').style.display = 'block';
+  document.getElementById('dashboard-section').classList.remove('open');
+}
+
+function renderPosts(){
+  const grid = document.getElementById('posts-grid');
+  // Show skeletons first
+  grid.innerHTML = Array(6).fill(0).map(()=>`
+    <div class="post-card" style="pointer-events:none">
+      <div class="post-card-img"><div class="skeleton-block" style="width:100%;height:100%"></div></div>
+      <div class="post-card-body">
+        <div class="skeleton-block" style="height:20px;width:60%;margin-bottom:12px"></div>
+        <div class="skeleton-block" style="height:16px;width:100%;margin-bottom:8px"></div>
+        <div class="skeleton-block" style="height:16px;width:80%"></div>
+      </div>
+    </div>
+  `).join('');
+  setTimeout(()=>renderFilteredPosts(), 800);
+}
+
+function renderFilteredPosts(){
+  const filtered = POSTS.filter(p=>{
+    const matchCat = currentFilter==='all'||p.category===currentFilter;
+    const matchSearch = !searchQuery || p.title.toLowerCase().includes(searchQuery) || p.desc.toLowerCase().includes(searchQuery);
+    return matchCat && matchSearch;
+  });
+  const grid = document.getElementById('posts-grid');
+  if(filtered.length===0){
+    grid.innerHTML = `<div style="grid-column:1/-1;text-align:center;padding:60px;color:var(--text3)"><div style="font-size:3rem;margin-bottom:16px">🔍</div><p>No posts found. Try different filters!</p></div>`;
+    return;
+  }
+  grid.innerHTML = filtered.map(p=>`
+    <div class="post-card" onclick="openArticle(${p.id})">
+      <div class="post-card-img">
+        <div class="cat-bg ${p.category}"></div>
+        <span style="position:relative;z-index:1;font-size:2.5rem">${p.emoji}</span>
+      </div>
+      <div class="post-card-body">
+        <div class="post-meta">
+          <span class="cat-badge ${p.category}">${p.category}</span>
+          <button class="bookmark-btn ${bookmarks.has(p.id)?'saved':''}" onclick="toggleBookmark(event,${p.id})" title="${bookmarks.has(p.id)?'Remove bookmark':'Save'}">${bookmarks.has(p.id)?'🔖':'☆'}</button>
+        </div>
+        <h3>${p.title}</h3>
+        <p>${p.desc}</p>
+        <div class="post-footer">
+          <span class="post-date">${p.date}</span>
+          <span class="read-more">${p.readTime} →</span>
+        </div>
+      </div>
+    </div>
+  `).join('');
+}
+
+function filterCategory(cat, el){
+  currentFilter = cat;
+  document.querySelectorAll('.filter-chip').forEach(c=>c.classList.remove('active'));
+  el.classList.add('active');
+  renderFilteredPosts();
+}
+
+function filterSidebar(cat, el){
+  currentFilter = cat;
+  document.querySelectorAll('.sidebar-btn').forEach(b=>b.classList.remove('active'));
+  el.classList.add('active');
+  document.querySelectorAll('.filter-chip').forEach((c,i)=>{
+    const cats=['all','placements','internships','campus','tech'];
+    c.classList.toggle('active',cats[i]===cat);
+  });
+  renderFilteredPosts();
+}
+
+function searchPosts(query){
+  searchQuery = query.toLowerCase();
+  renderFilteredPosts();
+}
+
+function showBookmarks(){
+  const prev = currentFilter;
+  document.querySelectorAll('.sidebar-btn').forEach(b=>b.classList.remove('active'));
+  event.target.classList.add('active');
+  // Show only bookmarked
+  const grid = document.getElementById('posts-grid');
+  const saved = POSTS.filter(p=>bookmarks.has(p.id));
+  document.querySelector('.dash-header h1').textContent = '🔖 Saved Posts';
+  if(saved.length===0){
+    grid.innerHTML=`<div style="grid-column:1/-1;text-align:center;padding:60px;color:var(--text3)"><div style="font-size:3rem;margin-bottom:16px">🔖</div><p>No saved posts yet. Bookmark posts to see them here!</p></div>`;
+    return;
+  }
+  grid.innerHTML = saved.map(p=>`
+    <div class="post-card" onclick="openArticle(${p.id})">
+      <div class="post-card-img"><div class="cat-bg ${p.category}"></div><span style="position:relative;z-index:1;font-size:2.5rem">${p.emoji}</span></div>
+      <div class="post-card-body">
+        <div class="post-meta"><span class="cat-badge ${p.category}">${p.category}</span><button class="bookmark-btn saved" onclick="toggleBookmark(event,${p.id})">🔖</button></div>
+        <h3>${p.title}</h3><p>${p.desc}</p>
+        <div class="post-footer"><span class="post-date">${p.date}</span><span class="read-more">${p.readTime} →</span></div>
+      </div>
+    </div>
+  `).join('');
+}
+
+function toggleBookmark(e, id){
+  e.stopPropagation();
+  if(bookmarks.has(id)){bookmarks.delete(id);showToast('Removed from bookmarks')}
+  else{bookmarks.add(id);showToast('Saved to bookmarks 🔖')}
+  renderFilteredPosts();
+}
+
+// ===== ARTICLE =====
+function openArticle(id){
+  const post = POSTS.find(p=>p.id===id);
+  if(!post) return;
+  const article = document.getElementById('article-section');
+  const content = document.getElementById('article-content');
+  content.innerHTML = `
+    <button class="back-btn" onclick="closeArticle()">← Back to Dashboard</button>
+    <div class="article-meta">
+      <span class="cat-badge ${post.category}">${post.category}</span>
+      <span class="article-date">${post.date}</span>
+      <span class="article-read-time">⏱ ${post.readTime}</span>
+    </div>
+    <h1 class="article-title font-display">${post.title}</h1>
+    <div class="article-divider"></div>
+    <div class="article-content">${post.content}</div>
+  `;
+  article.classList.add('open');
+  article.scrollTop = 0;
+}
+function closeArticle(){
+  document.getElementById('article-section').classList.remove('open');
+}
+
+// ===== TOAST =====
+function showToast(msg){
+  const t = document.getElementById('toast');
+  document.getElementById('toast-text').textContent = msg;
+  t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),2500);
+}
+
+// ===== REVEAL ANIMATIONS =====
+const observer = new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');observer.unobserve(e.target)}});
+},{threshold:0.1});
+document.querySelectorAll('.reveal').forEach(el=>observer.observe(el));
+
+// ===== LOADING =====
+window.addEventListener('load',()=>{
+  setTimeout(()=>{
+    document.getElementById('loading-overlay').classList.add('hidden');
+  }, 1400);
+});
+
+// Close auth on backdrop click
+document.getElementById('auth-section').addEventListener('click',function(e){
+  if(e.target===this) closeAuth();
+});
+</script>
+</body>
+</html>
